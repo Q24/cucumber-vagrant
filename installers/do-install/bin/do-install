@@ -27,8 +27,8 @@ function download {
 
   if [ ! -e ${DOWNLOAD_DIR}/${DOWNLOAD_FILE} ]
   then
-    println "Downloading ${BLUE}'${DOWNLOAD_FILE}'${RESET}..."
-    println "Location: ${DOWNLOAD_URL}"
+    println "Downloading '${BLUE}${DOWNLOAD_FILE}${RESET}'"
+    println "       from '${BLUE}${DOWNLOAD_URL}${RESET}.'"
     if ! curl -fs ${DOWNLOAD_URL} -o ${DOWNLOAD_DIR}/${DOWNLOAD_FILE}
     then
       red "Unable to download '${DOWNLOAD_FILE}' from '${DOWNLOAD_URL}'"

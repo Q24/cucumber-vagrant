@@ -18,3 +18,12 @@ mvn clean test \
  -Dwebdriver.gecko.driver=bin/linux64/geckodriver \
  -Dtest.browser=firefox \
  -Dwebdriver.firefox.bin=${WEBDRIVER}
+
+SRC_DIR="target/cucumber/report/"
+DIR="reports/${1}"
+if [ -d "${SRC_DIR}" ]; then
+  # Control will enter here if $DIRECTORY exists.
+  mkdir -p {$DIR}
+  cp -r SRC_DIR/* ${DIR}
+fi
+

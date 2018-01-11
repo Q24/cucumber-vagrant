@@ -41,8 +41,8 @@ fi
 echo ""
 
 # Start of the actual provisioning script
-sed -i 's/^mesg n/tty -s \&\& mesg n/g' /root/.profile
-source /root/.profile
+#sed -i 's/^mesg n/tty -s \&\& mesg n/g' /root/.profile
+#source /root/.profile
 
 blue "Installing 'dos2unix'."
 apt-get -y update
@@ -80,6 +80,9 @@ do-install maven
 do-install help
 do-install cc-run
 do-install version
+
+# Does not seem to work from SSH.
+# do-install disable-screensaver
 
 echo " "
 warn '  _____ __  __ _____   ____  _____ _______       _   _ _______ '
