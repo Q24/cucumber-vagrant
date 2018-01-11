@@ -1,0 +1,113 @@
+#!/usr/bin/env bash
+
+DOWNLOAD_DIR="/opt/hawaii/download"
+if [ ! -d ${DOWNLOAD_DIR} ]; then
+  mkdir -p ${DOWNLOAD_DIR}
+fi
+
+RESET="\e[0m"
+NORMAL="\e[21m\e[39m"
+BOLD="\e[1m"
+BLUE="\e[94m"
+RED="\e[91m"
+
+function blue {
+  echo -e "${BLUE}${@}${RESET}"
+}
+function red {
+  echo -e "${RED}${@}${RESET}"
+}
+function println {
+  echo -e "  ${NORMAL}${@}${RESET}"
+}
+
+function download {
+  DOWNLOAD_FILE="${1}"
+  DOWNLOAD_URL="${2}"
+
+  if [ ! -e ${DOWNLOAD_DIR}/${DOWNLOAD_FILE} ]
+  then
+    println "Downloading ${BLUE}'${DOWNLOAD_FILE}'${RESET}..."
+    println "Location: ${DOWNLOAD_URL}"
+    if ! curl -fs ${DOWNLOAD_URL} -o ${DOWNLOAD_DIR}/${DOWNLOAD_FILE}
+    then
+      red "Unable to download '${DOWNLOAD_FILE}' from '${DOWNLOAD_URL}'"
+      exit 1
+    fi
+  fi
+}
+
+function install_bin {
+  # Do not fail, nor complain, on files not present in the '${SRC_DIR}/bin' directory.
+  cp ${SRC_DIR}/bin/* /home/vagrant/bin 2>/dev/null || true
+
+  update_bin
+}
+
+function update_bin {
+  dos2unix -q /home/vagrant/bin/*
+  chmod +x /home/vagrant/bin/*
+  chown -R vagrant: /home/vagrant/bin
+}
+
+if [ $EUID != 0 ]; then
+  red "Please run this as root:"
+  echo -n "   sudo "
+  echo -n `basename ${0}`
+  echo " $*"
+  exit 1
+fi
+
+if [ "$#" -lt 1 ]; then
+  red "Usage: `basename $0` what [dir]"
+  exit -1
+fi
+
+INSTALLER="${1}"
+INSTALLER_DIR="/installers/${INSTALLER}"
+TMP_DIR="${2}"
+
+if [ ! -d "${INSTALLER_DIR}" ]; then
+  echo "Directory '${INSTALLER_DIR}' does not exist."
+  exit -1
+fi
+
+set -e
+export DEBIAN_FRONTEND=noninteractive
+
+# Create a temp dir to work in, so dos2unix won't cause changes in the original files
+if [ -z "${TMP_DIR}" ]; then
+  TMP_DIR=$(mktemp -dt "$(basename $0).XXXXXXXXXX")
+#  trap 'rm -rf "${TMP_DIR}"' EXIT
+fi
+chmod o+rx ${TMP_DIR}
+
+SRC_DIR="${TMP_DIR}/${INSTALLER}"
+mkdir -p "${SRC_DIR}"
+cp -a "${INSTALLER_DIR}"/* "${SRC_DIR}"
+
+if [ -f /vagrant/hawaii.conf ]
+then
+    cp /vagrant/hawaii.conf "${SRC_DIR}"
+else
+    cp /vagrant/hawaii.conf.defaults "${SRC_DIR}/hawaii.conf"
+fi
+
+blue  "Installing '${INSTALLER}'."
+println "Using dir '${SRC_DIR}'."
+println "Converting installer files to unix format."
+
+find "${SRC_DIR}" -type f -print0 | xargs -0 dos2unix -q
+find "${SRC_DIR}" -iname *.sh -print0 | xargs -0 chmod +x
+
+export SRC_DIR="${SRC_DIR}"
+cd "${SRC_DIR}"
+source hawaii.conf
+if [ ! -e "${SRC_DIR}/provision.sh" ]
+then
+    echo "No provision script in '${SRC_DIR}'."
+    exit -1
+fi
+
+source ${SRC_DIR}/provision.sh
+

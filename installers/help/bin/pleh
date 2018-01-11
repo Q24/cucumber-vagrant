@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+RESET="\e[0m"
+NORMAL="\e[21m\e[39m"
+BOLD="\e[1m\e[92m"
+BLUE="\e[94m"
+RED="\e[91m"
+
+echo
+echo -e "${BOLD}firefox-esr           ${RESET}Starts a Firefox ESR instance"
+echo -e "${BOLD}cc-run ${BLUE}suite${BLUE}          ${RESET}Runs the Cucumber suite ${BOLD}${BLUE}suite${RESET}"
+echo

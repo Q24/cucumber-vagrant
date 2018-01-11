@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+if [ "$#" -lt 1 ]; then
+  echo "Usage: cc-run suite"
+  exit -1
+fi
+
+TEST_SUITE="${1}"
+WEBDRIVER=$(/usr/bin/which firefox-esr)
+
+cd /opt/hawaii/workspace/kahuna-acc-tests
+
+mvn clean test \
+ -Dit.test=${TEST_SUITE} verify \
+ -Dtest.timeout=15 \
+ -Dtest.remote=true \
+ -Dtest.base.url=http://target.kahuna.loc:8888 \
+ -Dwebdriver.gecko.driver=bin/linux64/geckodriver \
+ -Dtest.browser=firefox \
+ -Dwebdriver.firefox.bin=${WEBDRIVER}

@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+REPOSITORY_VERSION_FILE=/vagrant/VERSION
+INSTALLED_VERSION_FILE=/etc/kahuna-vagrant-version
+
+if [ -f $REPOSITORY_VERSION_FILE -a -f $INSTALLED_VERSION_FILE ] 
+then
+    tmpfile=`mktemp`
+    cp $REPOSITORY_VERSION_FILE $tmpfile
+    dos2unix $tmpfile 2>/dev/null
+    repository_version=`cat $tmpfile`
+    installed_version=`cat $INSTALLED_VERSION_FILE`
+    if [ "$repository_version" = "$installed_version" ]
+    then
+        echo -e "\nVagrant install is up to date at version $installed_version"
+    else
+        echo -e "\n\e[1m\e[91mVagrant install is out of date (is $installed_version but should be $repository_version)\e[0m\n"
+        echo "Check Changelog.md in kahuna-vagrant for upgrade instructions"
+    fi
+    rm -f $tmpfile
+else
+    echo "Cannot determine version(s)"
+    exit 1
+fi

@@ -1,0 +1,9 @@
+RESET="\e[0m"
+NORMAL="\e[21m\e[39m"
+BOLD="\e[1m\e[92m"
+BLUE="\e[94m"
+RED="\e[91m"
+
+echo -e ""
+echo -e "Type '${BOLD}${RED}pleh${RESET}' or '${BOLD}${RED}?${RESET}' for help."
+echo -e ""

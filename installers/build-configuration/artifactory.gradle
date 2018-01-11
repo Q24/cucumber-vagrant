@@ -1,0 +1,17 @@
+allprojects{
+    repositories {
+        all { ArtifactRepository repo ->
+            if ((repo instanceof MavenArtifactRepository) && repo.url.toString().startsWith("http") && !repo.url.toString().startsWith("http://DEFAULT_GW_IP:PORT_PLACEHOLDER/artifactory/repo")) {
+                remove repo
+            }
+            if ((repo instanceof MavenArtifactRepository) && (repo.url.toString().startsWith("/") || repo.url.toString().startsWith("file:"))
+            && (!repo.url.toString().startsWith("/home/vagrant/.m2/repository") || !repo.url.toString().startsWith("file:/home/vagrant/.m2/repository"))) {
+                remove repo
+            }
+        }
+        maven {
+            url "/home/vagrant/.m2/repository"
+            url "http://DEFAULT_GW_IP:PORT_PLACEHOLDER/artifactory/repo/"
+        }
+    }
+}

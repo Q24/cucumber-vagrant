@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+if [ $EUID != 0 ]; then
+  echo "Please run this as root."
+  exit -1
+fi
+
+rm -rf /opt/hawaii/download

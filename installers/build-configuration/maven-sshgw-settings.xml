@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <localRepository>/home/vagrant/.m2/repository</localRepository>
+  <pluginGroups />
+  <proxies />
+  <servers>
+    <server>
+      <id>hawaii-releases</id>
+      <username>USERNAME_PLACEHOLDER</username>
+      <password>PASSWORD_PLACEHOLDER</password>
+    </server>
+  </servers>
+  <mirrors>
+    <mirror>
+      <id>hawaii-artifactory-central</id>
+      <mirrorOf>*</mirrorOf>
+      <name>Hawaii Artifactory mirror</name>
+      <url>http://DEFAULT_GW_IP:PORT_PLACEHOLDER/artifactory/repo/</url>
+    </mirror>
+  </mirrors>
+  <profiles>
+    <profile>
+      <id>foo</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <repositories>
+        <repository>
+          <id>myrepo</id>
+          <name>My Public Repository</name>
+          <url>http://DEFAULT_GW_IP:PORT_PLACEHOLDER/artifactory/repo/</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <updatePolicy>always</updatePolicy>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+    </profile>
+  </profiles>
+</settings>

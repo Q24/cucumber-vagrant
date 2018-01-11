@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+if ( test -f /etc/apt/apt.conf.d/01proxy )
+then
+  sudo sed -i -e 's/^#Acquire/Acquire/g' /etc/apt/apt.conf.d/01proxy
+fi
