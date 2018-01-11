@@ -7,6 +7,7 @@ destconfig=/opt/apache-maven/conf/settings.xml
 
 sourceconfig2=${DIR}/artifactory.gradle
 destconfig2=/opt/gradle/init.d/artifactory.gradle
+mkdir -p /opt/gradle/init.d/
 
 sourceconfig3=${DIR}/artifactory-settings.json
 destconfig3=/opt/hawaii/workspace/kahuna-frontend/artifactory-settings.json

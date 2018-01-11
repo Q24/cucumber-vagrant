@@ -14,7 +14,7 @@ mvn clean test \
  -Dit.test=${TEST_SUITE} verify \
  -Dtest.timeout=15 \
  -Dtest.remote=true \
- -Dtest.base.url=http://target.kahuna.loc:8888 \
+ -Dtest.base.url=https://kahuna-target.qnh.nl:8888 \
  -Dwebdriver.gecko.driver=bin/linux64/geckodriver \
  -Dtest.browser=firefox \
  -Dwebdriver.firefox.bin=${WEBDRIVER}
