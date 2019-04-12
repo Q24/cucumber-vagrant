@@ -77,6 +77,7 @@ do-install firefox-esr
 do-install sudo
 do-install java
 do-install maven
+do-install apache
 do-install help
 do-install cc-run
 do-install version
@@ -99,19 +100,20 @@ warn '  / ____ \ |____   | |   _| || |__| | |\  | | | \ \| |___| |__| | | |__| |
 warn ' /_/    \_\_____|  |_|  |_____\____/|_| \_| |_|  \_\______\___\_\ |_____/'
 warn ' '
 warn " "
-warn "Before being able to fully use the Vagrant machine,"
-warn "you must do the following:"
+warn "Before being able to fully use the Vagrant machine, you must do the following:"
 warn " "
-warn "Log in to your machine after this script finishes by typing:"
+warn "First of all, make sure you have in your host machine a PIU 2-factor SSL certificate set up."
+warn "Normally, you have this in either /opt/hawaii/hawaiicert or C:\AJDT\hawaiicert. If you don't"
+warn "generate one by following the PIU Getting Started Guide. Refer to kahuna-vagrant for more info."
+warn " "
+warn "Next, log in to your machine after this script finishes by typing:"
+warn " "
 warn " $ vagrant ssh"
-warn "And then, depending on your local setup, type:"
 warn " "
-warn "On the Vodafone corporate network:"
-warn " $ sudo do-update build-configuration/vodafone-corporate"
+warn "And then, type:"
 warn " "
-warn "On the QNH network (SSHgw) or when using DevLight over the internet:"
-warn " $ sudo do-update build-configuration/ssh-gateway"
+warn " $ sudo do-update build-configuration/hap"
 warn " "
-warn "You must repeat this step, each time you change your"
-warn "Hawaii LDAP password."
+warn "Choose the option for 'Hawaii Access Proxy setup' and follow the instructions."
+warn "You must repeat this each time your Hawaii password changes."
 warn " "

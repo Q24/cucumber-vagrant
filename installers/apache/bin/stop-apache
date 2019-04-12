@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# first, try to stop apache with systemd
+sudo systemctl stop apache2
+
+# check if everything is gone now
+numprocs=`ps -ef | grep apache2 | grep -v grep | wc -l`
+if [ $numprocs -gt 0 ]
+then
+  # stop apache with apachectl
+  sudo apachectl -k stop
+
+  # check again if everything is down
+  numprocs2=`ps -ef | grep apache2 | grep -v grep | wc -l`
+
+  if [ $numprocs2 -gt 0 ]
+  then
+    # okay, now just kill it
+    pid=`ps -ef | grep apache2 | grep -v grep | grep root | awk '{print $2}'`
+    sudo kill $pid
+  fi
+fi

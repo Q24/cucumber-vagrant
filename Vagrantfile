@@ -108,6 +108,10 @@ Vagrant.configure("2") do |config|
     exit 1
   end
 
+  if File.directory?(File.expand_path("../hawaiicert"))
+    config.vm.synced_folder "../hawaiicert", "/opt/hawaii/hawaiicert"
+  end
+
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
